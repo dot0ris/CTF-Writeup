@@ -2,7 +2,7 @@
 
 ## 2020
 
-tons of uncompleted solves ;p
+tons of uncompleted solvers ;p
 
 0ctf - emoji, emoji_misc, flash_1
 
