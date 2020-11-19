@@ -4,26 +4,22 @@
 
 tons of uncompleted solves ;p
 
-0ctf
+0ctf - emoji, emoji_misc, flash_1
 
-cce
+cce - babyshell, simple_cmdshell, simple_pwn, simple_rop, simple_uaf, tpu
 
-dreamhack
+dreamhack - checkflag
 
-googlectf
+hacklu - sparc
 
-h4c
+kaf - shadowstack
 
-hacklu
+kapo - cnc, ezbof
 
-kaf
+pctf - emojidb, ipppc, mojo
 
-kapo
+seccon - encryptor, kstack, kvdb
 
-pctf
-
-seccon
-
-twctf
+twctf - rsa, vid
 
 TBA
