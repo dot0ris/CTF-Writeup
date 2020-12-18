@@ -3,6 +3,11 @@
 inst = ['🍴', '🍿', '🍦', '🍨', '🥣', '😋', '🥢', '🥄', '🥤', '👋', '🍇', '🍉']
 digit = ['🍞', '🥐', '🥖', '🥨', '🥯', '🥞', '🍪', '🍰', '🥧', '🍮']
 
+def alloc(n):
+    return inst[4] + digit[n]
+    
+def free(n):
+    return inst[5] + digit[n]
 
 def make10():
     return inst[0] + digit[1] + inst[0] + digit[9] + inst[10]

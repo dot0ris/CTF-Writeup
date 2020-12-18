@@ -5,7 +5,9 @@ ENV port 63650
 
 # Install packages
 RUN sed -i "s/http:\/\/archive.ubuntu.com/http:\/\/mirror.kakao.com/g" /etc/apt/sources.list
+RUN apt-get clean
 RUN apt-get update
+RUN apt-get -y install gdb
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y socat python3 sudo locales
 
 # setup locales
@@ -25,6 +27,7 @@ ADD ./libc-2.32.so /home/$user/libc-2.32.so
 ADD ./launcher.py /home/$user/launcher.py
 ADD ./buffetvm /home/$user/buffetvm
 ADD ./flag /home/$user/flag
+ADD ./emoji /home/$user/emoji
 
 # chown & chmod files
 RUN chown -R root:root /home/$user
@@ -33,11 +36,13 @@ RUN chown root:$user /home/$user/libc-2.32.so
 RUN chown root:$user /home/$user/launcher.py
 RUN chown root:$user /home/$user/buffetvm
 RUN chown root:$user /home/$user/flag
+RUN chown root:$user /home/$user/emoji
 RUN chmod 755 /home/$user/ld-2.32.so
 RUN chmod 755 /home/$user/libc-2.32.so
 RUN chmod 755 /home/$user/launcher.py
 RUN chmod 755 /home/$user/buffetvm
 RUN chmod 440 /home/$user/flag
+RUN chmod 755 /home/$user/emoji
 
 # Run server
 WORKDIR /home/$user

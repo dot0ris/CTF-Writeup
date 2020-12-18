@@ -2,6 +2,8 @@
 
 int main ()
 {
-    int p[4] = {0, 1, 2, 3};
-    printf("%d\n", *(char *)(p+2));
+    void *p = malloc(0x20);
+    free(p);
+    free(p);
+    return 0;
 }
